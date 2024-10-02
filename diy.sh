@@ -20,7 +20,7 @@ echo "OpenWrt DIY script"
 echo "repo: ${repo}; owner: ${owner};"
 
 # Modify default IP
-sed -i 's/192.168.1.1/192.168.2.1/g' package/base-files/files/bin/config_generate
+sed -i 's/192.168.1.1/192.168.2.41/g' package/base-files/files/bin/config_generate
 
 # Modify hostname
 #sed -i 's/OpenWrt/OpenWrting/g' package/base-files/files/bin/config_generate
@@ -29,7 +29,7 @@ sed -i 's/192.168.1.1/192.168.2.1/g' package/base-files/files/bin/config_generat
 #sed -i "s/'UTC'/'CST-8'\n        set system.@system[-1].zonename='Asia\/Shanghai'/g" package/base-files/files/bin/config_generate
 
 # Modify banner
-if [ "${owner}" == "Ing" ]; then
+if [ "${owner}" == "Niu" ]; then
   if [ "${repo}" == "openwrt" ]; then
     cat >package/base-files/files/etc/banner <<EOF
   _______                     ________        __
@@ -44,16 +44,15 @@ if [ "${owner}" == "Ing" ]; then
 EOF
   else
     cat >package/base-files/files/etc/banner <<EOF
-     _________
-    /        /\      _    ___ ___  ___
-   /  LE    /  \    | |  | __|   \| __|
-  /    DE  /    \   | |__| _|| |) | _|
- /________/  LE  \  |____|___|___/|___|        Lede By ${owner}  
- \        \   DE /
-  \    LE  \    /  -------------------------------------------
-   \  DE    \  /    %D %V, %C
-    \________\/    -------------------------------------------
-
+ ██████╗ ██████╗ ███████╗███╗   ██╗██╗    ██╗██████╗ ████████╗
+██╔═══██╗██╔══██╗██╔════╝████╗  ██║██║    ██║██╔══██╗╚══██╔══╝
+██║   ██║██████╔╝█████╗  ██╔██╗ ██║██║ █╗ ██║██████╔╝   ██║   
+██║   ██║██╔═══╝ ██╔══╝  ██║╚██╗██║██║███╗██║██╔══██╗   ██║   
+╚██████╔╝██║     ███████╗██║ ╚████║╚███╔███╔╝██║  ██║   ██║   
+ ╚═════╝ ╚═╝     ╚══════╝╚═╝  ╚═══╝ ╚══╝╚══╝ ╚═╝  ╚═╝   ╚═╝   
+  -------------------------------------------
+  		%D %V, %C      By ${owner} 
+  -------------------------------------------
 EOF
   fi
 else
@@ -142,9 +141,9 @@ sed -i "s/bootstrap/${deftheme}/g" feeds/luci/modules/luci-base/root/etc/config/
 #sed -i 's/CONFIG_TARGET_ROOTFS_PARTSIZE=.*$/CONFIG_TARGET_ROOTFS_PARTSIZE=1024/' .config
 
 # Modify app list
-sed -i 's/"vpn"/"services"/g; s/"VPN"/"Services"/g' package/feeds/luci/luci-app-ipsec-server/luasrc/controller/ipsec-server.lua # `grep "IPSec VPN Server" -rl ./`
-sed -i 's/"vpn"/"services"/g; s/"VPN"/"Services"/g' package/feeds/luci/luci-app-ipsec-vpnd/luasrc/controller/ipsec-server.lua   # `grep "IPSec VPN Server" -rl ./`
-sed -i 's/"vpn"/"services"/g; s/"VPN"/"Services"/g' package/feeds/ing/luci-app-zerotier/luasrc/controller/zerotier.lua          # `grep "ZeroTier" -rl ./`
+# sed -i 's/"vpn"/"services"/g; s/"VPN"/"Services"/g' package/feeds/luci/luci-app-ipsec-server/luasrc/controller/ipsec-server.lua # `grep "IPSec VPN Server" -rl ./`
+# sed -i 's/"vpn"/"services"/g; s/"VPN"/"Services"/g' package/feeds/luci/luci-app-ipsec-vpnd/luasrc/controller/ipsec-server.lua   # `grep "IPSec VPN Server" -rl ./`
+# sed -i 's/"vpn"/"services"/g; s/"VPN"/"Services"/g' package/feeds/ing/luci-app-zerotier/luasrc/controller/zerotier.lua          # `grep "ZeroTier" -rl ./`
 
 # Modify app name
 sed -i 's/"IPSec VPN 服务器"/"IPSec VPN"/g' package/feeds/luci/luci-app-ipsec-server/po/*/ipsec-server.po # `grep "IPSec VPN 服务器" -rl ./`
@@ -164,3 +163,9 @@ sed -i 's/"Argon 主题设置"/"主题设置"/g' package/feeds/ing/luci-app-argo
 # CONFIG_PACKAGE_trojan-go  导致 web升级后 报错: /usr/lib/lua/luci/dispatcher.lua:220: /etc/config/luci seems to be corrupt, unable to find section 'main'
 
 # luci-app-beardropper 导致 web升级后 /etc/config/network 信息丢失
+
+# 科学上网插件
+# git clone --depth=1 -b main https://github.com/fw876/helloworld package/luci-app-ssr-plus
+git clone --depth=1 https://github.com/xiaorouji/openwrt-passwall-packages package/openwrt-passwall
+git clone --depth=1 https://github.com/xiaorouji/openwrt-passwall package/luci-app-passwall
+# git clone --depth=1 https://github.com/xiaorouji/openwrt-passwall2 package/luci-app-passwall2
